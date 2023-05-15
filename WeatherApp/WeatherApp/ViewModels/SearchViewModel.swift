@@ -9,21 +9,12 @@ import Foundation
 import CoreLocation
 
 // ViewModel for search functionality
-final class SearchViewModel: ObservableObject {
+final class SearchViewModel: BaseViewModel {
     // Published property to hold the user's search query
     @Published var searchCity = ""
 
     // Published property to hold the found city after performing the search
     @Published var foundCity: City? = nil        
-
-    // Indicates if there is an error occurred while fetching city data
-    var hasError: Bool = false
-    // The error occurred while fetching city data
-    @Published var error: ValidationError? = nil {
-        didSet {
-            hasError = error != nil
-        }
-    }
 
     // Function to perform a search using CoreLocation geocoder
     func performSearch() {

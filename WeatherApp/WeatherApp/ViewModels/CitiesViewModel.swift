@@ -9,21 +9,12 @@ import SwiftUI
 import CoreData
 
 // ViewModel for managing cities data
-final class CitiesViewModel: ObservableObject {
+final class CitiesViewModel: BaseViewModel {
     
     // MARK: - Properties
     
     // List of cities retrieved from the database
     var cities: [City] = []
-        
-    // Indicates if there is an error occurred while fetching city data
-    var hasError: Bool = false
-    // The error occurred while fetching city data
-    @Published var error: ValidationError? = nil {
-        didSet {
-            hasError = error != nil
-        }
-    }
     
     // Current city based on user's location
     @Published var currentCity: City? = nil
@@ -34,7 +25,8 @@ final class CitiesViewModel: ObservableObject {
     // MARK: - Initializer
     
     // Initializes the ViewModel and configures cities from the database
-    init() {
+    override init() {
+        super.init()
         configureCitiesFromDB()
         locationService.delegate = self
         locationService.startUpdatingLocation()

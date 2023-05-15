@@ -9,24 +9,13 @@ import Foundation
 import Combine
 
 // ViewModel for managing weather data
-final class WeatherViewModel: ObservableObject {
+final class WeatherViewModel: BaseViewModel {
     // The city object whose weather data is being displayed
     var city: City
     
-    // The error occurred while fetching weather data
-    @Published var error: ValidationError? = nil {
-        didSet {
-            hasError = error != nil
-        }
-    }
-    
-    // Indicates if there is an error occurred while fetching weather data
-    var hasError: Bool = false
-    
     // The cancelables set to keep track of network requests
     private var cancelables = Set<AnyCancellable>()
-        
-    
+            
     // Initializes the view model with the given city object
     init(city: City) {
         self.city = city
