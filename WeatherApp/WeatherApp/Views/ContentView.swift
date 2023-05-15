@@ -16,12 +16,20 @@ struct ContentView: View {
     @State private var shouldPushWeatherView = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             // Main content view with search and cities views
             VStack(spacing: 5) {
+                // Search view for searching cities
                 SearchView(searchViewModel: searchViewModel)
                     .padding([.leading, .trailing], 10)
+                
+                // View for displaying cities
                 CitiesView(citiesViewModel: citiesViewModel)
+            }
+            // Navigation destination for pushing WeatherView
+            .navigationDestination(isPresented: $shouldPushWeatherView) {
+                // Weather view with the found city
+                WeatherView(weatherViewModel: WeatherViewModel(city: searchViewModel.foundCity!))
             }
             // Navigation bar customizations
             .navigationBarTitle("Weather", displayMode: .large)
@@ -29,16 +37,6 @@ struct ContentView: View {
             // Background color of the main view
             .background(Rectangle()
                 .fill(.mint).ignoresSafeArea())
-            // Hidden navigation link to push the weather view
-            .background(
-                NavigationLink(
-                    destination: WeatherView(weatherViewModel: WeatherViewModel(city: searchViewModel.foundCity!)),
-                    isActive: $shouldPushWeatherView
-                ) {
-                    EmptyView()
-                }
-                .hidden()
-            )
             // Handle found city from search view model and push the weather view if necessary
             .onReceive(searchViewModel.$foundCity) { city in
                 if let city {
