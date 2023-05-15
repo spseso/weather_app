@@ -56,10 +56,7 @@ struct ContentView: View {
                     citiesViewModel.error = nil
                 }
             }
-        }
-        .onTapGesture(perform: {
-            self.hideKeyboard()
-        })
+        }        
     }
 }
 
